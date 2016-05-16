@@ -41,7 +41,7 @@ private fun String.next(idx: Int): Char =
         if (idx < length - 1) this[idx + 1] else '-'
 
 private fun String.spareDifference(roll: Char, idx: Int): Int =
-        if (roll == SPARE) this.previous(idx).score() else 0
+        if (roll == SPARE) previous(idx).score() else 0
 
 private fun String.isLastFrame(idx: Int): Boolean =
-        NUM_NORMAL_THROWS <= this.substring(0, idx).sumBy { it.countRolls() }
+        NUM_NORMAL_THROWS <= substring(0, idx).sumBy { it.countRolls() }
