@@ -15,16 +15,20 @@ fun score(allThrows: String): Int =
 
 private fun bonuses(aThrow: Char, idx: Int, allThrows: String): Int =
         if (isLastFrame(allThrows, idx)) 0
-        else when (aThrow.scoreType()) {
-            SPARE -> allThrows.next(idx).toScore()
-            STRIKE -> {
-                var score = allThrows.next(idx).toScore() + allThrows.next(idx + 1).toScore()
-                if (allThrows.next(idx + 1).scoreType() == SPARE) {
-                    score -= allThrows.next(idx).toScore()
+        else {
+            val nextThrow = allThrows.next(idx)
+            when (aThrow.scoreType()) {
+                SPARE -> nextThrow.toScore()
+                STRIKE -> {
+                    val nextThrowButOne = allThrows.next(idx + 1)
+                    var score = nextThrow.toScore() + nextThrowButOne.toScore()
+                    if (nextThrowButOne.scoreType() == SPARE) {
+                        score -= nextThrow.toScore()
+                    }
+                    score
                 }
-                score
+                else -> 0
             }
-            else -> 0
         }
 
 private fun isLastFrame(allThrows: String, idx: Int): Boolean =
