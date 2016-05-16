@@ -17,7 +17,13 @@ private fun bonuses(aThrow: Char, idx: Int, allThrows: String): Int =
         if (isLastFrame(allThrows, idx)) 0
         else when (aThrow.scoreType()) {
             SPARE -> allThrows.next(idx).toScore()
-            STRIKE -> allThrows.next(idx).toScore() + allThrows.next(idx + 1).toScore()
+            STRIKE -> {
+                var score = allThrows.next(idx).toScore() + allThrows.next(idx + 1).toScore()
+                if (allThrows.next(idx + 1).scoreType() == SPARE) {
+                    score -= allThrows.next(idx).toScore()
+                }
+                score
+            }
             else -> 0
         }
 

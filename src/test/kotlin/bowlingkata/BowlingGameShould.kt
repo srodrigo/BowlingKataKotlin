@@ -31,9 +31,20 @@ class BowlingGameShould {
         assertThat(score("X52"), `is`(24))
         assertThat(score("XX--"), `is`(30))
         assertThat(score("XX52"), `is`(49))
+        assertThat(score("X--51"), `is`(16))
         assertThat(score("XXXXXXXXX---"), `is`(240))
         assertThat(score("XXXXXXXXXX--"), `is`(270))
         assertThat(score("XXXXXXXXXXX-"), `is`(290))
         assertThat(score("XXXXXXXXXXXX"), `is`(300))
+    }
+
+    @Test fun `calculate score with spares and strikes`() {
+        assertThat(score("1/X1/1"), `is`(52))
+        assertThat(score("1/35X"), `is`(31))
+
+        assertThat(score("1/35XXX45"), `is`(103))
+        assertThat(score("1/35XXX458/X35"), `is`(149))
+        assertThat(score("1/35XXX458/X3/23"), `is`(160))
+        assertThat(score("1/35XXX458/X3/XX6"), `is`(189))
     }
 }
