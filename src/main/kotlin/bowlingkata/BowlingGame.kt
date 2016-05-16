@@ -7,10 +7,10 @@ private const val STRIKE = 'X'
 
 fun score(allRolls: String): Int =
         allRolls.foldIndexed(0) { idx, acc, roll ->
-            acc + roll.toScore() + bonuses(roll, idx, allRolls) - spareDifference(roll, idx, allRolls)
+            acc + roll.toScore() + bonus(roll, idx, allRolls) - spareDifference(roll, idx, allRolls)
         }
 
-private fun bonuses(roll: Char, idx: Int, allRolls: String): Int =
+private fun bonus(roll: Char, idx: Int, allRolls: String): Int =
         if (isLastFrame(allRolls, idx)) 0
         else {
             val nextRoll = allRolls.next(idx)
