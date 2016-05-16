@@ -7,7 +7,7 @@ private const val STRIKE = 'X'
 
 fun score(allRolls: String): Int =
         allRolls.foldIndexed(0) { idx, acc, roll ->
-            acc + roll.toScore() + bonus(allRolls, roll, idx) - spareDifference(allRolls, roll, idx)
+            acc + roll.score() + bonus(allRolls, roll, idx) - spareDifference(allRolls, roll, idx)
         }
 
 private fun bonus(allRolls: String, roll: Char, idx: Int): Int =
@@ -15,22 +15,22 @@ private fun bonus(allRolls: String, roll: Char, idx: Int): Int =
         else {
             val nextRoll = allRolls.next(idx)
             when (roll) {
-                SPARE -> nextRoll.toScore()
+                SPARE -> nextRoll.score()
                 STRIKE -> {
                     val nextRollButOne = allRolls.next(idx + 1)
-                    nextRoll.toScore() + nextRollButOne.toScore() - spareDifference(allRolls, nextRollButOne, idx + 2)
+                    nextRoll.score() + nextRollButOne.score() - spareDifference(allRolls, nextRollButOne, idx + 2)
                 }
                 else -> 0
             }
         }
 
 private fun spareDifference(allRolls: String, roll: Char, idx: Int): Int =
-        if (roll == SPARE) allRolls.previous(idx).toScore() else 0
+        if (roll == SPARE) allRolls.previous(idx).score() else 0
 
 private fun isLastFrame(allRolls: String, idx: Int): Boolean =
         NUM_NORMAL_THROWS <= allRolls.substring(0, idx).sumBy { it.countRolls() }
 
-private fun Char.toScore(): Int =
+private fun Char.score(): Int =
         when (this) {
             MISS -> 0
             SPARE, STRIKE -> 10
