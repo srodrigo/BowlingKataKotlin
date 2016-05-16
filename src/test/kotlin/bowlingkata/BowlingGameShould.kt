@@ -6,7 +6,7 @@ import org.junit.Test
 
 class BowlingGameShould {
 
-    @Test fun `calculate score with balls`() {
+    @Test fun `calculate score with bowls only`() {
         assertThat(score("23"), `is`(5))
     }
 
