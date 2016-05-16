@@ -1,6 +1,6 @@
 package bowlingkata
 
-private const val numNormalThrows = 18
+private const val NUM_NORMAL_THROWS = 18
 private const val MISS = '-'
 private const val SPARE = '/'
 private const val STRIKE = 'X'
@@ -28,7 +28,7 @@ private fun spareDifference(aThrow: Char, idx: Int, allThrows: String): Int =
         if (aThrow == SPARE) allThrows.previous(idx).toScore() else 0
 
 private fun isLastFrame(allThrows: String, idx: Int): Boolean =
-        numNormalThrows <= allThrows.substring(0, idx).sumBy { it.countThrows() }
+        NUM_NORMAL_THROWS <= allThrows.substring(0, idx).sumBy { it.countThrows() }
 
 private fun Char.toScore(): Int =
         when (this) {
