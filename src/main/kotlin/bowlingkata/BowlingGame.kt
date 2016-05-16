@@ -7,11 +7,7 @@ private const val STRIKE = 'X'
 
 fun score(allThrows: String): Int =
         allThrows.foldIndexed(0) { idx, acc, aThrow ->
-            var score = aThrow.toScore() + bonuses(aThrow, idx, allThrows)
-            if (aThrow == SPARE) {
-                score -= allThrows.previous(idx).toScore()
-            }
-            score + acc
+            acc + aThrow.toScore() + bonuses(aThrow, idx, allThrows) - spareDifference(aThrow, idx, allThrows)
         }
 
 private fun bonuses(aThrow: Char, idx: Int, allThrows: String): Int =
@@ -22,15 +18,14 @@ private fun bonuses(aThrow: Char, idx: Int, allThrows: String): Int =
                 SPARE -> nextThrow.toScore()
                 STRIKE -> {
                     val nextThrowButOne = allThrows.next(idx + 1)
-                    var score = nextThrow.toScore() + nextThrowButOne.toScore()
-                    if (nextThrowButOne == SPARE) {
-                        score -= nextThrow.toScore()
-                    }
-                    score
+                    nextThrow.toScore() + nextThrowButOne.toScore() - spareDifference(nextThrowButOne, idx + 2, allThrows)
                 }
                 else -> 0
             }
         }
+
+private fun spareDifference(aThrow: Char, idx: Int, allThrows: String): Int =
+        if (aThrow == SPARE) allThrows.previous(idx).toScore() else 0
 
 private fun isLastFrame(allThrows: String, idx: Int): Boolean =
         numNormalThrows <= allThrows.substring(0, idx).sumBy { it.countThrows() }
