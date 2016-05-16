@@ -5,30 +5,30 @@ private const val MISS = '-'
 private const val SPARE = '/'
 private const val STRIKE = 'X'
 
-fun score(allThrows: String): Int =
-        allThrows.foldIndexed(0) { idx, acc, aThrow ->
-            acc + aThrow.toScore() + bonuses(aThrow, idx, allThrows) - spareDifference(aThrow, idx, allThrows)
+fun score(allRolls: String): Int =
+        allRolls.foldIndexed(0) { idx, acc, roll ->
+            acc + roll.toScore() + bonuses(roll, idx, allRolls) - spareDifference(roll, idx, allRolls)
         }
 
-private fun bonuses(aThrow: Char, idx: Int, allThrows: String): Int =
-        if (isLastFrame(allThrows, idx)) 0
+private fun bonuses(roll: Char, idx: Int, allRolls: String): Int =
+        if (isLastFrame(allRolls, idx)) 0
         else {
-            val nextThrow = allThrows.next(idx)
-            when (aThrow) {
-                SPARE -> nextThrow.toScore()
+            val nextRoll = allRolls.next(idx)
+            when (roll) {
+                SPARE -> nextRoll.toScore()
                 STRIKE -> {
-                    val nextThrowButOne = allThrows.next(idx + 1)
-                    nextThrow.toScore() + nextThrowButOne.toScore() - spareDifference(nextThrowButOne, idx + 2, allThrows)
+                    val nextRollButOne = allRolls.next(idx + 1)
+                    nextRoll.toScore() + nextRollButOne.toScore() - spareDifference(nextRollButOne, idx + 2, allRolls)
                 }
                 else -> 0
             }
         }
 
-private fun spareDifference(aThrow: Char, idx: Int, allThrows: String): Int =
-        if (aThrow == SPARE) allThrows.previous(idx).toScore() else 0
+private fun spareDifference(roll: Char, idx: Int, allRolls: String): Int =
+        if (roll == SPARE) allRolls.previous(idx).toScore() else 0
 
-private fun isLastFrame(allThrows: String, idx: Int): Boolean =
-        NUM_NORMAL_THROWS <= allThrows.substring(0, idx).sumBy { it.countThrows() }
+private fun isLastFrame(allRolls: String, idx: Int): Boolean =
+        NUM_NORMAL_THROWS <= allRolls.substring(0, idx).sumBy { it.countRolls() }
 
 private fun Char.toScore(): Int =
         when (this) {
@@ -37,7 +37,7 @@ private fun Char.toScore(): Int =
             else -> String(charArrayOf(this)).toInt()
         }
 
-private fun Char.countThrows(): Int =
+private fun Char.countRolls(): Int =
         if (this == STRIKE) 2 else 1
 
 private fun String.previous(idx: Int): Char =
